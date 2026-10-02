@@ -27,6 +27,7 @@ public class SecurityCamera : MonoBehaviour
 
     private GameObject debugSphere;
     private Material debugMaterial;
+    public bool playerDetected = false;
 
     void Start()
     {
@@ -57,6 +58,8 @@ public class SecurityCamera : MonoBehaviour
 
     void DetectPlayer()
     {
+        playerDetected = false;
+
         LayerMask detectionMask = playerMask | obstacleMask;
 
         RaycastHit sphereHit;
@@ -96,6 +99,8 @@ public class SecurityCamera : MonoBehaviour
         }
 
         // Camera has a clear view of the player.
+        playerDetected = true;
+
         Debug.Log("Security camera detected: " + sphereHit.collider.name);
 
         // Alert all linked enemies.

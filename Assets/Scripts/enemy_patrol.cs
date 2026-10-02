@@ -283,6 +283,30 @@ public class EnemyPatrol : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
     }
+    public float GetDetectionLevel()
+    {
+        if (currentState == EnemyState.Alerted ||
+            currentState == EnemyState.Pursuing)
+        {
+            return 1f;
+        }
+
+        if (currentState != EnemyState.Detecting)
+        {
+            return 0f;
+        }
+
+        float distance = Vector3.Distance(
+            transform.position,
+            player.position
+        );
+
+        return Mathf.InverseLerp(
+            detectionRange,
+            alertDistance,
+            distance
+        );
+    }
     public void CameraDetectedPlayer(Vector3 playerPosition)
     {
         lastSeenPosition = playerPosition;

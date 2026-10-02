@@ -17,6 +17,9 @@ public class HideBarrel : MonoBehaviour
     [Header("Reset Sequence")]
     public BarrelResetSequence resetSequence;
 
+    [Header("UI")]
+    public TMPro.TMP_Text hidePrompt;
+
     private PlayerMovement playerMovement;
     private Transform playerTransform;
 
@@ -47,6 +50,8 @@ public class HideBarrel : MonoBehaviour
 
     void Update()
     {
+        UpdateHidePrompt();
+
         if (playerMovement == null)
             return;
 
@@ -130,6 +135,49 @@ public class HideBarrel : MonoBehaviour
         }
 
         return true;
+    }
+    void UpdateHidePrompt()
+    {
+        if (playerInside)
+        {
+            hidePrompt.gameObject.SetActive(false);
+            return;
+        }
+
+        Camera cam = Camera.main;
+
+        if (cam == null)
+        {
+            hidePrompt.gameObject.SetActive(false);
+            return;
+        }
+
+        Ray ray = new Ray(
+            cam.transform.position,
+            cam.transform.forward
+        );
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            ray,
+            interactionDistance
+        );
+
+        bool hitBarrel = false;
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.CompareTag("Player"))
+                continue;
+
+            if (hit.collider.gameObject == gameObject ||
+                hit.collider.transform.IsChildOf(transform))
+            {
+                hitBarrel = true;
+                break;
+            }
+        }
+
+        hidePrompt.gameObject.SetActive(hitBarrel);
     }
 
     void EnterBarrel()

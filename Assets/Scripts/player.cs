@@ -5,8 +5,8 @@ public class PlayerMovement : MonoBehaviour
 {
     public new Rigidbody rigidbody;
     public float speed = 8f;
-    public float jump = 8f;
-    bool canJump = false;
+    //public float jump = 8f;
+    //bool canJump = false;
     public Camera playerCamera;
     public float mouseSensitivity = 50f;
     private float mouseX;
@@ -53,15 +53,15 @@ public class PlayerMovement : MonoBehaviour
                 rigidbody.AddForce(transform.right * Time.fixedDeltaTime * speed, ForceMode.Impulse);
             }
 
-            if (Keyboard.current.spaceKey.IsPressed())
-            {
-                if (canJump)
-                {
-                    canJump = false;
-                    transform.SetParent(null);
-                    rigidbody.AddForce(Vector3.up * Time.fixedDeltaTime * jump, ForceMode.Impulse);
-                }
-            }
+            //if (Keyboard.current.spaceKey.IsPressed()) Not needed
+            //{
+                //if (canJump)
+                //{
+                    //canJump = false;
+                    //transform.SetParent(null);
+                    //rigidbody.AddForce(Vector3.up * Time.fixedDeltaTime * jump, ForceMode.Impulse);
+                //}
+            //}
 
             if (Mouse.current.rightButton.isPressed)
             {
@@ -98,31 +98,31 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.MoveRotation(rotation);
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            canJump = true;
-        }
-    }
-    private void OnCollisionStay(Collision collision)
-    {
-         if (collision.gameObject.CompareTag("Platform"))
-         {
-            foreach (ContactPoint contact in collision.contacts)
-            {
-                if (contact.normal.y > 0.5f)
-                {
-                    canJump = true;
-                }
-            }
-        }
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            canJump = false;
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+        //if (collision.gameObject.CompareTag("Platform"))
+        //{
+            //canJump = true;
+        //}
+    //}
+    //private void OnCollisionStay(Collision collision)
+    //{
+         //if (collision.gameObject.CompareTag("Platform"))
+         //{
+            //foreach (ContactPoint contact in collision.contacts)
+            //{
+                //if (contact.normal.y > 0.5f)
+                //{
+                    //canJump = true;
+                //}
+            //}
+        //}
+    //}
+    //private void OnCollisionExit(Collision collision)
+    //{
+        //if (collision.gameObject.CompareTag("Platform"))
+        //{
+            //canJump = false;
+        //}
+    //}
 }
